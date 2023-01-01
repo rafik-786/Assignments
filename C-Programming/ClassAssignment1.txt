@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define min(a,b) a<b?a:b
+
+void printArray(int **arr, int size) {
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++) {
+			printf("%d\t", arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+void add(int **odd, int **even, int size)
+{
+	int **res = (int**)malloc(sizeof(int*)*size);
+
+	for (int i = 0; i < size; i++) {
+		res[i] = (int*)malloc(sizeof(int) * size);
+	}
+
+	for (int i = 0; i < size; i++ ) {
+		for (int j = 0; j < size; j++) {
+			res[i][j] = odd[i][j] + even[i][j];
+		}
+	}
+
+	printf("Matrix Added:\n");
+	printArray(res, size);
+	free(res);
+
+}
+void subtract(int **odd, int **even   , int size)
+{
+	int **res = (int**)malloc(sizeof(int*)*size);
+
+	for (int i = 0; i < size; i++) {
+		res[i] = (int*)malloc(sizeof(int) * size);
+	}
+
+	for (int i = 0; i < size; i++ ) {
+		for (int j = 0; j < size; j++) {
+			res[i][j] = odd[i][j] - even[i][j];
+		}
+	}
+
+	printf("Matrix Subtracted:\n");
+	printArray(res, size);
+	free(res);
+
+}
+
+void solve(int *num, int size) {
+
+}
+
+int main()
+{
+
+	int n;
+	printf("Enter number of elements:");
+	scanf("%d", &n);
+
+	int *odd = (int*)malloc(sizeof(int) * n);
+	int *even = (int*)malloc(sizeof(int) * n);
+
+	int even_count = 0;
+	int odd_count = 0;
+	int num;
+	for (int i = 0; i < n; i++) {
+		printf("Enter element #%d: ", i + 1);
+		scanf("%d", &num);
+
+		if (num & 1) {
+			odd[odd_count] = num;
+			odd_count++;
+		}
+		else {
+			even[even_count] = num;
+			even_count++;
+		}
+
+	}
+
+	int m = sqrt(min(odd_count, even_count));
+	if (m < 2) printf("Insufficient element:)\n");
+	else {
+		int **oddArr = (int**)malloc(sizeof(int*)*m);
+		int **evenArr = (int**)malloc(sizeof(int*)*m);
+
+		for (int i = 0; i < m; i++) {
+			oddArr[i] = (int*)malloc(sizeof(int) * m);
+			evenArr[i] = (int*)malloc(sizeof(int) * m);
+		}
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < m; j++) {
+				oddArr[i][j] = odd[(i * m) + j];
+				evenArr[i][j] = even[(i * m) + j];
+			}
+		}
+
+		free(odd);
+		free(even);
+		printf("The odd array:-\n");
+		printArray(oddArr, m);
+		printf("The even array:-\n");
+		printArray(evenArr, m);
+
+
+		add(oddArr, evenArr, m);
+		subtract(oddArr, evenArr, m);
+
+
+
+
+	}
+
+
+	return 0;
+}
