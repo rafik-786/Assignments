@@ -77,6 +77,9 @@ void sem_post(int *sem) {
 void p1() {
 	while (1) {
 		sem_wait(&semaphores[0]);
+		if (*counter == 0) {
+			break;
+		}
 		printf("A ");
 		fflush(stdout);
 		sem_post(&semaphores[1]);
@@ -88,9 +91,6 @@ void p2() {
 	int turn = 0;
 	while (1) {
 		sem_wait(&semaphores[1]);
-		if (*counter <= 0) {
-			break;
-		}
 		printf("B ");
 		fflush(stdout);
 		if (turn == 0) {
@@ -111,9 +111,6 @@ void p3() {
 	int turn = 0;
 	while (1) {
 		sem_wait(&semaphores[2]);
-		if ((*counter) <= 0) {
-			break;
-		}
 		printf("C ");
 		fflush(stdout);
 		if (turn == 0) {
